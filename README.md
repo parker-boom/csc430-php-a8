@@ -15,8 +15,17 @@ php-a8/
 
 ## Running
 
+Install PHP first if `php` is not already available. Test it with:
+
 ```sh
 php -v
+```
+
+Clone and run:
+
+```sh
+git clone https://github.com/parker-boom/csc430-php-a8.git
+cd csc430-php-a8
 php tests.php
 php demo.php
 ```
