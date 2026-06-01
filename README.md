@@ -31,7 +31,15 @@ php-a8/
 
 ## Running
 
-No Composer or framework is required.
+Prerequisite: PHP CLI must be installed and available as `php`.
+
+Check first:
+
+```sh
+php -v
+```
+
+No Composer or framework is required after PHP itself is installed.
 
 ```sh
 php tests.php
@@ -43,6 +51,7 @@ After cloning:
 ```sh
 git clone https://github.com/parker-boom/csc430-php-a8.git
 cd csc430-php-a8
+php -v
 php tests.php
 php demo.php
 ```
@@ -111,4 +120,5 @@ This scaffold was created with AI assistance. The local Assignment 4 implementat
 - Jarvis hiding/exclusion: no `.jarvisignore` or workspace settings file was detected, but the parent JARVIS root `.gitignore` now excludes `school/programming/php-a8/` so this nested repo stays out of the parent tree.
 - Assignment 4 reference: the local `A4.rkt` file was not available in this environment. This scaffold uses the programming node's Assignment 4 summary and local Racket review notes as style signals instead.
 - Source files use the `Vebg` namespace so PHP's built-in `serialize()` function does not conflict with the assignment's expected `serialize($value)` helper.
+- PHP availability: modern macOS versions and Windows do not reliably include a `php` CLI by default, so teammates may need to install PHP before running the commands above.
 - Known limitation: parser work is intentionally not included. Manually constructed ASTs are the intended testing surface for now.
