@@ -107,3 +107,81 @@ function ensureList(array $xs, string $what): void
         $expected++;
     }
 }
+
+function emptyEnv(): array
+{
+    return [];
+}
+
+function lookup(array $env, string $name): array
+{
+    ensureName($name, 'lookup name');
+
+    foreach ($env as $binding) {
+        if (!is_array($binding) || !array_key_exists('name', $binding) || !array_key_exists('value', $binding)) {
+            vebgError('malformed environment binding');
+        }
+        if ($binding['name'] === $name) {
+            return $binding['value'];
+        }
+    }
+
+    vebgError("unbound identifier: {$name}");
+}
+
+function extend(array $env, string $name, array $value): array
+{
+    ensureName($name, 'binding name');
+
+    $newEnv = $env;
+    array_unshift($newEnv, ['name' => $name, 'value' => $value]);
+    return $newEnv;
+}
+
+function extendMany(array $env, array $names, array $values): array
+{
+    ensureNames($names, 'binding name');
+    ensureList($values, 'binding value');
+
+    if (count($names) !== count($values)) {
+        vebgError('wrong number of arguments');
+    }
+
+    $newEnv = $env;
+    for ($i = count($names) - 1; $i >= 0; $i--) {
+        $newEnv = extend($newEnv, $names[$i], $values[$i]);
+    }
+
+    return $newEnv;
+}
+
+function serialize(array $value): string
+{
+    $tag = $value['tag'] ?? null;
+
+    return match ($tag) {
+        'numV' => formatNumber($value['n']),
+        'strV' => json_encode($value['s'], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
+        'boolV' => $value['b'] ? 'true' : 'false',
+        'closureV', 'primV' => '#<procedure>',
+        default => vebgError('cannot serialize malformed value'),
+    };
+}
+
+function vebgError(string $message): never
+{
+    throw new VebgException("VEBG error: {$message}");
+}
+
+function formatNumber(int|float $n): string
+{
+    if (is_int($n) || floor($n) == $n) {
+        return (string) (int) $n;
+    }
+
+    return rtrim(rtrim(sprintf('%.14F', $n), '0'), '.');
+}
+
+class VebgException extends \RuntimeException
+{
+}
