@@ -108,7 +108,7 @@ This scaffold was created with AI assistance. The local Assignment 4 implementat
 
 ## Notes
 
-- Jarvis hiding/exclusion: no `.jarvisignore`, workspace settings, or similar project-hiding convention was detected under the JARVIS tree, so no hiding rule was added.
+- Jarvis hiding/exclusion: no `.jarvisignore` or workspace settings file was detected, but the parent JARVIS root `.gitignore` now excludes `school/programming/php-a8/` so this nested repo stays out of the parent tree.
 - Assignment 4 reference: the local `A4.rkt` file was not available in this environment. This scaffold uses the programming node's Assignment 4 summary and local Racket review notes as style signals instead.
 - Source files use the `Vebg` namespace so PHP's built-in `serialize()` function does not conflict with the assignment's expected `serialize($value)` helper.
 - Known limitation: parser work is intentionally not included. Manually constructed ASTs are the intended testing surface for now.
