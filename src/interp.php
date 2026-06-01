@@ -1,15 +1,19 @@
 <?php
 
 /*
-Person 1 owns the shared foundation: runtime helpers, AST/value constructors,
-environment operations, serialization, error conventions, and the main interp
-dispatcher. Person 2 owns primitive operators and the top-level environment.
-Person 3 owns function values, closure creation, application, and argument
-binding. Person 4 owns literals, identifiers, conditionals, tests, and optional
-given desugaring if time allows.
+Shared foundation complete:
+runtime helpers, AST/value constructors, environments, serialization, error
+conventions, and the main interpreter dispatcher.
 
-This file is intentionally scaffolded so teammates can work independently in
-their assigned sections without overlapping too much.
+Person 2:
+implement primitive operators and the top-level environment.
+
+Person 3:
+implement function values, closure creation, application, and argument binding.
+
+Person 4:
+implement literals, identifiers, conditionals, tests, and optional given
+desugaring if time allows.
 */
 
 declare(strict_types=1);

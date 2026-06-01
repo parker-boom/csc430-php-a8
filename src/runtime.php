@@ -1,5 +1,10 @@
 <?php
 
+/*
+Shared runtime definitions live here. Feel free to append new AST/value helpers
+or runtime checks below as the interpreter grows.
+*/
+
 declare(strict_types=1);
 
 namespace Vebg;
