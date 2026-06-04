@@ -61,7 +61,13 @@ function interpIf(array $expr, array $env): array
 {
     // Person 4: evaluate test, require a boolean value, then interpret the
     // selected branch in the same environment.
-    vebgError('if expressions are assigned to Person 4');
+    $testVal = interp($expr['test'], $env);
+    if (($testVal['tag'] ?? null) !== 'boolV') {
+        vebgError('if test not boolean: ' . serialize($testVal));
+    }
+    return $testVal['b']
+        ? interp($expr['then'], $env)
+        : interp($expr['else'], $env);
 }
 
 function interpFn(array $expr, array $env): array
