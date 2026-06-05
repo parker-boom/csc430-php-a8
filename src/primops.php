@@ -14,7 +14,7 @@ function initialEnv(): array
     $env = extendMany(
         $env, 
         ['+', '-', '*', '/', '<=', 'substring', 'strlen', 'equal?', 'true', 'false', 'error'],
-        [primV('+'), primV('-'), primV('*'), primV('/'), primV('substring'), primV('strlen'), primV('equal?'), boolV(true), boolV(false), primV('error')]
+        [primV('+'), primV('-'), primV('*'), primV('/'), primV('<='), primV('substring'), primV('strlen'), primV('equal?'), boolV(true), boolV(false), primV('error')]
         );
     return $env;
 }
