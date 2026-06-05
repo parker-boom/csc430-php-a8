@@ -83,6 +83,11 @@ function applyBinop(string $name, array $args) : array
     };
 }
 
+$env = initialEnv();
+
+echo serialize(lookup($env, '+')) . "\n";        
+echo serialize(lookup($env, '-')) . "\n";         
+
 // basic arith
 echo serialize(applyPrimop('+', [numV(3), numV(4)])) . "\n";    // 7
 echo serialize(applyPrimop('/', [numV(10), numV(2)])) . "\n";   // 5
