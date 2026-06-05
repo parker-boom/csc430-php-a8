@@ -14,7 +14,7 @@ function initialEnv(): array
     $env = extendMany(
         $env, 
         ['+', '-', '*', '/', '<=', 'substring', 'strlen', 'equal?', 'true', 'false', 'error'],
-        [primV('+'), primV('-'), primV('*'), primV('/'), primV('substring'), primV('strlen'), primV('equal?'), boolV(true), boolV(false), primV('error')]
+        [primV('+'), primV('-'), primV('*'), primV('/'), primV('<='), primV('substring'), primV('strlen'), primV('equal?'), boolV(true), boolV(false), primV('error')]
         );
     return $env;
 }
@@ -82,6 +82,11 @@ function applyBinop(string $name, array $args) : array
         '<=' => boolV($args[0]['n'] <= $args[1]['n'])
     };
 }
+
+$env = initialEnv();
+
+echo serialize(lookup($env, '+')) . "\n";        
+echo serialize(lookup($env, '-')) . "\n";         
 
 // basic arith
 echo serialize(applyPrimop('+', [numV(3), numV(4)])) . "\n";    // 7
