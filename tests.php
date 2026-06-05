@@ -15,6 +15,7 @@ use function Vebg\extendMany;
 use function Vebg\fnE;
 use function Vebg\idE;
 use function Vebg\ifE;
+use function Vebg\interp;
 use function Vebg\lookup;
 use function Vebg\numE;
 use function Vebg\numV;
@@ -90,6 +91,27 @@ assertVebgError(
     fn() => lookup(emptyEnv(), 'missing'),
     'unbound identifier',
     'lookup reports missing identifiers'
+);
+
+// Person 4: conditionals. These use boolE literals so they run standalone
+assertSameValue('1', topInterp(ifE(boolE(true), numE(1), numE(2))), 'if true picks then');
+assertSameValue('2', topInterp(ifE(boolE(false), numE(1), numE(2))), 'if false picks else');
+assertSameValue('"yes"', topInterp(ifE(boolE(true), strE('yes'), strE('no'))), 'if over strings');
+
+assertVebgError(
+    fn() => topInterp(ifE(numE(0), numE(1), numE(2))),
+    'if test not boolean',
+    'if requires a boolean test'
+);
+
+// Only the selected branch is evaluated: the unbound id in the dead else must not error.
+assertSameValue('1', topInterp(ifE(boolE(true), numE(1), idE('missing'))), 'if short-circuits');
+
+// A branch may reference identifiers bound in the environment.
+assertSameValue(
+    numV(9),
+    interp(ifE(boolE(true), idE('x'), numE(0)), extend(emptyEnv(), 'x', numV(9))),
+    'if branch resolves identifiers from env'
 );
 
 echo "All tests passed\n";

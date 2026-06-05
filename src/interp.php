@@ -61,18 +61,36 @@ function interpIf(array $expr, array $env): array
 {
     // Person 4: evaluate test, require a boolean value, then interpret the
     // selected branch in the same environment.
-    vebgError('if expressions are assigned to Person 4');
+    $testVal = interp($expr['test'], $env);
+    if (($testVal['tag'] ?? null) !== 'boolV') {
+        vebgError('if test not boolean: ' . serialize($testVal));
+    }
+    return $testVal['b']
+        ? interp($expr['then'], $env)
+        : interp($expr['else'], $env);
 }
 
 function interpFn(array $expr, array $env): array
 {
+    return closureV($expr['params'], $expr['body'], $env);
     // Person 3: create a closureV that stores params, body, and the saved env.
-    vebgError('function expressions are assigned to Person 3');
+}
+
+function applyClosure(array $closure, array $args): array
+{
+    $closure['env'] = extendMany($closure['env'], $closure['params'], $args);
+    return interp($closure['body'], $closure['env']);
 }
 
 function interpApp(array $expr, array $env): array
 {
+    $fn = interp($expr['fn'], $env);
+    $evalArgs = array_map(fn($arg) => interp($arg, $env), $expr['args']);
+    return match ($fn['tag'] ?? null) {
+        'primV' => applyPrimop($fn['name'], $evalArgs),
+        'closureV' => applyClosure($fn, $evalArgs),
+        default => vebgError('expected function value in application'),
+    };
     // Person 3: evaluate the function position and arguments, then dispatch to
     // closure application or Person 2's applyPrimop for primitive values.
-    vebgError('applications are assigned to Person 3');
 }
